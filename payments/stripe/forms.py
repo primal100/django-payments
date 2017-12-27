@@ -66,9 +66,9 @@ class StripeFormMixin(object):
 
 class ModalPaymentForm(StripeFormMixin, BasePaymentForm):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, attrs=None, **kwargs):
         super(StripeFormMixin, self).__init__(hidden_inputs=False, *args, **kwargs)
-        widget = StripeCheckoutWidget(provider=self.provider, payment=self.payment)
+        widget = StripeCheckoutWidget(provider=self.provider, payment=self.payment, attrs=attrs)
         self.fields['stripeToken'] = forms.CharField(widget=widget)
         if self.is_bound and not self.data.get('stripeToken'):
             self.payment.change_status(PaymentStatus.REJECTED)

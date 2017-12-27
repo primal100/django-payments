@@ -20,11 +20,11 @@ class StripeProvider(BasicProvider):
         self.name = name
         super(StripeProvider, self).__init__(**kwargs)
 
-    def get_form(self, payment, data=None):
+    def get_form(self, payment, data=None, attrs=None):
         if payment.status == PaymentStatus.WAITING:
             payment.change_status(PaymentStatus.INPUT)
         form = self.form_class(
-            data=data, payment=payment, provider=self)
+            data=data, payment=payment, provider=self, attrs=None)
 
         if form.is_valid():
             form.save()
